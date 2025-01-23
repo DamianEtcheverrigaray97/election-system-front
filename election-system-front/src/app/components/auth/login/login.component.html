@@ -1,1 +1,22 @@
-<p>login works!</p>
+<div class="component">
+    <a> <h1>Election System</h1> </a>
+    
+    <form #myForm="ngForm" class="label-content" method="post">
+        <div class="messageError">
+            <p>El usuario y/o contraseña ingresados son inválidos</p>
+        </div>
+        <div class="label">
+            <input name="username" type="text" placeholder="User"  size=12px required>
+            
+        </div>
+        
+        <div class="label">
+            <input name="password" type="password" placeholder="Password"  size=12px  required>
+        </div>
+
+        <button type="submit">Iniciar Sesión</button>
+
+
+    </form>
+
+</div>

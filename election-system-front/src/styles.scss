@@ -7,6 +7,7 @@
   
 body {
     font-family: 'Poppins', sans-serif;
+    margin: 0;
 }
 
 html {
@@ -86,4 +87,28 @@ html {
 
 .layout-content-wrapper{
     padding: 30px;
+}
+
+.surface-0 {
+    background-color: #ffffff !important;
+}
+
+.h-screen {
+    height: 100vh !important;
+}
+
+.align-items-center {
+    align-items: center !important;
+}
+
+.justify-content-between {
+    justify-content: space-between !important;
+}
+
+.flex-column {
+    flex-direction: column !important;
+}
+
+.flex {
+    display: flex !important
 }
