@@ -1,0 +1,89 @@
+@font-face {
+    font-family: 'Poppins';
+    font-weight: 500;
+    font-style: normal;
+    src: url('/assets/fonts/poppins-v20-latin-500.woff') format('woff');
+}
+  
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+html {
+    height: 100%;
+
+    body {
+        height: 100%;
+        background-color:#f9fafb;
+
+        app-root {
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+            
+            & > div {
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+
+                & > app-login, & > app-register, & > app-webchat, & > app-error {
+                    min-height: 100vh;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                }
+
+                & > app-client {
+                    min-height: 100vh;
+                    display: flex;
+                    flex-direction: column;
+
+                    & > div {
+                        display: flex;
+                        flex-direction: column;
+                        height: 100%;
+ 
+                        & > .mat-tab-group {
+                            margin-top: 60px;
+                            height: calc(100vh - 51px) !important
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+.card{
+    background: #ffffff;
+    border: 1px solid #dfe7ef;
+    padding: 2rem;
+    box-shadow: 0px 4px 30px rgba(221, 224, 255, .54);
+    border-radius: 12px;
+}
+
+.layout-breadcrumb {
+    margin-top: 20px; 
+    margin-bottom: 20px;
+    font-size: 14px;
+    ol {
+        display: flex;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        gap: 1rem;
+        flex-wrap: wrap;
+        color: #83888f;;
+
+        li {
+            font-weight: 500;
+        }
+    }
+}
+
+.layout-content-wrapper{
+    padding: 30px;
+}
