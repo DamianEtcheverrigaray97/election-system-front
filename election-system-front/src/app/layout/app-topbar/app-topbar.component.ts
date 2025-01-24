@@ -5,13 +5,14 @@ import { BadgeModule } from 'primeng/badge';
 import { AvatarModule } from 'primeng/avatar';
 import { InputTextModule } from 'primeng/inputtext';
 import { CommonModule } from '@angular/common';
-import { Ripple } from 'primeng/ripple';
-import { RouterLink } from '@angular/router';
+import { Ripple, RippleModule } from 'primeng/ripple';
+import { Router, RouterLink } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-app-topbar',
   imports: [
-    Menubar, BadgeModule, AvatarModule, InputTextModule, Ripple, CommonModule, RouterLink
+    Menubar, BadgeModule, AvatarModule, InputTextModule, Ripple, CommonModule, RouterLink, ButtonModule, RippleModule
   ],
   standalone: true,
   templateUrl: './app-topbar.component.html',
@@ -19,6 +20,8 @@ import { RouterLink } from '@angular/router';
 })
 export class AppTopbarComponent {
   items: MenuItem[] | undefined;
+
+  constructor(private router: Router){ }
 
   ngOnInit() {
     this.items = [
@@ -48,5 +51,10 @@ export class AppTopbarComponent {
         routerLink: ['change-password']
       }
   ];
+  }
+
+  logout() {
+    sessionStorage.clear(); 
+    this.router.navigate(['auth/login']); 
   }
 }

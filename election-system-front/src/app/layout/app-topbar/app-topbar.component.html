@@ -63,9 +63,8 @@
         </a>
     </ng-template>
     <ng-template #end>
-        <div class="flex items-center gap-2">
-            <p-avatar image="assets/images/avatar_icon.png" shape="circle" />
-            <img src="assets/images/avatar_icon.png" alt="">
-        </div>
+        <button pButton pRipple (click)="logout()">
+            <i class="pi pi-sign-out"></i>
+        </button>
     </ng-template>
 </p-menubar>
