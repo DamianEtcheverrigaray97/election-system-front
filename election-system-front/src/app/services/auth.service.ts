@@ -19,13 +19,7 @@ export class AuthService {
   public currentUser:UserLogged=new UserLogged();
   public userLogged:AsyncSubject<boolean>= new AsyncSubject<boolean>();
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private http: HttpClient) {
-    if(this.currentUser == null || this.currentUser ==undefined){
-      if(this.router.url != 'auth/login' && (sessionStorage.getItem(environment.authTokenKey)==null || sessionStorage.getItem(environment.authTokenKey)==undefined)){
-        this.router.navigate(['auth/login'], {relativeTo: this.activatedRoute});
-      }
-    }
-  }
+  constructor(private http: HttpClient) { }
 
   public loginUser(email : string, password : string) : Observable<any>{
       const httpHeaders = new HttpHeaders(); 
@@ -52,4 +46,8 @@ export class AuthService {
     return this.http.put<ApiResponse<{ message: string }>>(`${API_AUTH_URL}/change-password`, body);
   }
   
+  isAuthenticated(): boolean {
+    const token = sessionStorage.getItem(environment.authTokenKey);
+    return !!token;
+  }
 }

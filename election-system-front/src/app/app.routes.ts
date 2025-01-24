@@ -5,14 +5,16 @@ import { AddVoterComponent } from './components/add-voter/add-voter.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { PublicVoteComponent } from './components/public-vote/public-vote.component';
 import { AppLayoutComponent } from './layout/app.layout.component';
+import { authGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
     
     { path: 'auth', data: { breadcrumb: 'Auth' }, loadChildren: () => import('./components/auth/auth.module').then((m) => m.AuthModule) },
-    { path: 'voting', component: PublicVoteComponent },
+    { path: '', component: PublicVoteComponent },
     {
         path: 'admin',
         component: AppLayoutComponent,
+        canActivate: [authGuard],
         children: [
             { path: 'candidates', component: TopCandidatesComponent, data: { breadcrumb: 'Candidatos Más Votados' } },
             { path: 'votes', component: VotesListComponent, data: { breadcrumb: 'Lista de Votos' } },
