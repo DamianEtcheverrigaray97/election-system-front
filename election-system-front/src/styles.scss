@@ -10,6 +10,62 @@ body {
     margin: 0;
 }
 
+:root {
+    --primary-300: #5c6bc0; 
+    --orange-300: #ffa726;
+    --green-300: #66bb6a;
+    --cyan-300: #00bcd4;
+    --surface-border: #dfe7ef;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -1rem;
+    margin-left: -1rem;
+    margin-top: -1rem;
+}
+
+.col-12 {
+    flex: 0 0 auto;
+    padding: 1rem;
+    width: 100%;
+}
+
+@media screen and (min-width: 1200px) {
+
+    .xl\:col-9 {
+        flex: 0 0 auto;
+        padding: 1rem;
+        width: 75%;
+    }
+
+    .xl\:col-6 {
+        flex: 0 0 auto;
+        padding: 1rem;
+        width: 50%;
+    }
+
+    .xl\:col-3 {
+        flex: 0 0 auto;
+        padding: 1rem;
+        width: 25%;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 1.5rem 0 1rem;
+    font-family: inherit;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #293241;
+    font-size: 1.3rem;
+}
+
+h1:first-child, h2:first-child, h3:first-child, h4:first-child, h5:first-child, h6:first-child {
+    margin-top: 0;
+}
+
 html {
     height: 100%;
 
@@ -111,4 +167,11 @@ html {
 
 .flex {
     display: flex !important
+}
+
+.p-menubar {
+    display: flex;
+    align-items: center;
+    border: 0!important;
+    border-radius: 0!important;
 }

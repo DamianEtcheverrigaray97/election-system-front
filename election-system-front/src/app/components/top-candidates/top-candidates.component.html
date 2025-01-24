@@ -1,2 +1,85 @@
+<div class="grid">
+    <div class="col-12 sm:col-6 xl:col-9">
+        <div class="card">
+            <p-table
+                #dt1
+                [value]="candidateList"
+                dataKey="id"
+                [rows]="10"
+                [loading]="loading"
+                [rowHover]="true"
+                styleClass="p-datatable-gridlines"
+                [paginator]="true"
+                [globalFilterFields]="['candidateId','name', 'lastName', 'totalVotes']"
+                responsiveLayout="scroll"
+            >
+                <ng-template pTemplate="caption">
+                    <div class="flex justify-content-between flex-column sm:flex-row">
+                        <span class="p-input-icon-left mb-2">
+                            <i class="pi pi-search mr-1"></i>
+                            <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar" class="w-full" />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="min-width: 12rem">
+                            <div class="flex justify-content-between align-items-center">
+                                Id
+                            </div>
+                        </th>
+                        <th style="min-width: 12rem">
+                            <div class="flex justify-content-between align-items-center">
+                                Nombre
+                            </div>
+                        </th>
+                        <th style="min-width: 12rem">
+                            <div class="flex justify-content-between align-items-center">
+                                Apellido
+                            </div>
+                        </th>
+                        <th style="min-width: 12rem">
+                            <div class="flex justify-content-between align-items-center">
+                                Total de Votos
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-customer>
+                    <tr>
+                        <td>
+                            {{ customer.candidateId }}
+                        </td>
+                        <td>
+                            {{ customer.name }}
+                        </td>
+                        <td>
+                            {{ customer.lastName }}
+                        </td>
+                        <td>
+                            {{ customer.totalVotes }}
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8">No se encontraron candidatos.</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="loadingbody">
+                    <tr>
+                        <td colspan="8">Cargando candidatos. Por favor espere.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+    <div class="col-12 sm:col-6 xl:col-3">
+        <div class="card h-full">
+            <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" height="300px"></p-chart>
+        </div>
+    </div>
+</div>
 
 
