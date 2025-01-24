@@ -6,6 +6,7 @@ import { AsyncSubject, BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { UserLogged } from '../api/userLogged';
+import { ApiResponse } from '../api/apiResponse';
 
 
 const API_AUTH_URL = environment.baseApiUrl+'/admin';
@@ -46,4 +47,9 @@ export class AuthService {
       );
   }
 
+  changePassword(currentPassword: string, newPassword: string): Observable<ApiResponse<{ message: string }>> {
+    const body = { currentPassword, newPassword };
+    return this.http.put<ApiResponse<{ message: string }>>(`${API_AUTH_URL}/change-password`, body);
+  }
+  
 }

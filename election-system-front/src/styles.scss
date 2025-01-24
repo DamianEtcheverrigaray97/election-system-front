@@ -70,6 +70,10 @@ h1:first-child, h2:first-child, h3:first-child, h4:first-child, h5:first-child, 
     margin-right: 1rem;
 }
 
+.mb-2{
+    margin-bottom: 2rem;
+}
+
 html {
     height: 100%;
 
@@ -178,4 +182,21 @@ html {
     align-items: center;
     border: 0!important;
     border-radius: 0!important;
+}
+
+.field.grid>label {
+    display: flex;
+    align-items: center;
+}
+
+.flex-col{
+    flex-direction: column;
+}
+
+.gap-2{
+    gap: 2rem;
+}
+
+.justify-content-end{
+    justify-content: flex-end;
 }

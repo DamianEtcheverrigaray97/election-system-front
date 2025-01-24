@@ -4,12 +4,18 @@ import { AppComponent } from './app/app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
 import { InterceptService } from './app/services/intercept.service';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const config = {
   ...appConfig,
   providers: [
     ...appConfig.providers,
-    importProvidersFrom(HttpClientModule),
+    importProvidersFrom(
+      HttpClientModule,               
+      ToastrModule.forRoot(),         
+      BrowserAnimationsModule        
+    ),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptService,
