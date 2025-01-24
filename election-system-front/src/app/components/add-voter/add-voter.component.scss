@@ -1,0 +1,22 @@
+.field{
+    display: flex;
+}
+
+.add-voter-container {
+    width: 60%;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+  
+.form-group {
+    margin-bottom: 20px;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+}
+  

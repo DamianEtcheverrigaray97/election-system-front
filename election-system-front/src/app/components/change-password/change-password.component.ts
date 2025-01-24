@@ -29,7 +29,8 @@ export class ChangePasswordComponent {
   newPassword: string = '';
   confirmPassword: string = '';
 
-  constructor(private authService: AuthService,
+  constructor(
+    private authService: AuthService,
     private messageService: MessageService
   ) { }
 
