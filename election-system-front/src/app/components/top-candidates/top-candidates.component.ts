@@ -8,14 +8,13 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { RippleModule } from 'primeng/ripple';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DropdownModule } from 'primeng/dropdown';
-import { ProgressBarModule } from 'primeng/progressbar';
-import { ToastModule } from 'primeng/toast';
 import { SliderModule } from 'primeng/slider';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
 import { Candidate } from '../../api/candidate.model';
 import { ChartModule } from 'primeng/chart';
-import { VoteService } from '../../services/Votes.service';
+import { VoteService } from '../../services/vote.service';
+
 @Component({
   selector: 'app-top-candidates',
   imports: [
@@ -30,7 +29,6 @@ import { VoteService } from '../../services/Votes.service';
     RippleModule, 
     MultiSelectModule, 
     DropdownModule, 
-    ProgressBarModule, 
     ChartModule
   ],
   templateUrl: './top-candidates.component.html',

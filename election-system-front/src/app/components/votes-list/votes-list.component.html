@@ -1,3 +1,120 @@
-<div class="card h-full">
-    adsasdsad
+<div class="grid">
+    <div class="col-12 sm:col-6 xl:col-12">
+        <div class="card">
+            <p-table
+                #dt1
+                [value]="votesList"
+                dataKey="id"
+                [rows]="10"
+                [loading]="loadingVotes"
+                [rowHover]="true"
+                styleClass="p-datatable-gridlines"
+                [paginator]="true"
+                [globalFilterFields]="['voteId','voteDate', 'candidate.name', 'candidate.lastName', 'voter.name', 'voter.lastName']"
+                responsiveLayout="scroll"
+            >
+                <ng-template pTemplate="caption">
+                    <div class="flex justify-content-between flex-column sm:flex-row">
+                        <span class="p-input-icon-left mb-2">
+                            <i class="pi pi-search mr-1"></i>
+                            <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar" class="w-full" />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="min-width: 12rem">
+                            <div class="flex justify-content-between align-items-center">
+                                Id
+                            </div>
+                        </th>
+                        <th style="min-width: 12rem">
+                            <div class="flex justify-content-between align-items-center">
+                                Fecha
+                            </div>
+                        </th>
+                        <th style="min-width: 12rem">
+                            <div class="flex justify-content-between align-items-center">
+                                Nombre Candidato
+                            </div>
+                        </th>
+                        <th style="min-width: 12rem">
+                            <div class="flex justify-content-between align-items-center">
+                               Apellido Candidato
+                            </div>
+                        </th>
+                        <th style="min-width: 12rem">
+                            <div class="flex justify-content-between align-items-center">
+                                Nombre Votante
+                            </div>
+                        </th>
+                        <th style="min-width: 12rem">
+                            <div class="flex justify-content-between align-items-center">
+                               Apellido Votante
+                            </div>
+                        </th>
+                        <th style="min-width: 12rem">
+                            <div class="flex justify-content-between align-items-center">
+                               Acciones
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-data>
+                    <tr>
+                        <td>
+                            {{ data.voteId }}
+                        </td>
+                        <td>
+                            {{ data.voteDate | date : 'dd/MM/yyyy' }}
+                        </td>
+                        <td>
+                            {{ data.candidate.name }}
+                        </td>
+                        <td>
+                            {{ data.candidate.lastName }}
+                        </td>
+                        <td>
+                            {{ data.voter.name }}
+                        </td>
+                        <td>
+                            {{ data.voter.lastName }}
+                        </td>
+                        <td>
+                            <button pButton type="button" pTooltip="Ver detalles de voto" tooltipPosition="bottom" icon="pi pi-search" class="p-button-rounded mr-2 mb-1" (click)="openVoteDialog(data.voteId)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8">No se encontraron votos.</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="loadingbody">
+                    <tr>
+                        <td colspan="8">Cargando votos. Por favor espere.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
 </div>
+  
+<!-- p-dialog para mostrar los detalles del voto -->
+<p-dialog header="Detalles del Voto" [(visible)]="displayModal" [modal]="true" showEffect="fade" [style]="{ width: '30vw' }" [breakpoints]="{ '960px': '75vw' }">
+    <div *ngIf="selectedVote">
+        <p><strong>Voto ID:</strong> {{ selectedVote.vote_id }}</p>
+        <p><strong>Fecha de Voto:</strong> {{ selectedVote.vote_date | date : 'dd/MM/yyyy' }}</p>
+        <p><strong>Candidato:</strong> {{ selectedVote.candidate_name }} {{ selectedVote.candidate_lastName }}</p>
+        <p><strong>Votante:</strong> {{ selectedVote.voter_name }} {{ selectedVote.voter_lastName }}</p>
+        <p><strong>Documento del Votante:</strong> {{ selectedVote.voter_document }}</p>
+        <p><strong>Fecha de Nacimiento del Votante:</strong> {{ selectedVote.voter_dob | date : 'dd/MM/yyyy' }}</p>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <button pButton icon="pi pi-check" (click)="closeDialog()" label="Cerrar" class="p-button-outlined"></button>
+    </ng-template>
+</p-dialog>
+  
+
+
