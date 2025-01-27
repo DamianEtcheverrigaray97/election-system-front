@@ -25,14 +25,15 @@
                                         required
                                     ></p-dropdown>
                                 </div>
-                                <div class="flex justify-content-end">
+                                <div class="flex justify-content-end mb-2">
                                     <button pButton type="submit" label="Enviar Voto" [disabled]="!votoForm.form.valid"></button>
                                 </div>
+                                <p-messages [value]="msgs"></p-messages>
                             </div>
                         </div>
                     </div>   
                 </form>
-                <p-messages [value]="msgs"></p-messages>
+     
             </p-card>
   
         </div>
