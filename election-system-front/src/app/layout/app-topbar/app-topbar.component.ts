@@ -26,11 +26,6 @@ export class AppTopbarComponent {
   ngOnInit() {
     this.items = [
       {
-        label: 'Home',
-        icon: 'pi pi-home', 
-        routerLink: ['candidates']
-      },
-      {
         label: 'Candidatos más votados',
         icon: 'pi pi-users', 
         routerLink: ['candidates']

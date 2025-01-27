@@ -2,23 +2,20 @@
     <a><h1>Election System</h1></a>
   
     <form [formGroup]="loginForm" (ngSubmit)="login()" class="label-content">
-      
-      <!-- Mensaje de error -->
-      <div class="messageError" *ngIf="loginError">
-        <p>{{ loginError }}</p>
-      </div>
   
       <!-- Campo de usuario -->
       <div class="label">
-        <input formControlName="username" type="text" placeholder="User" size="12px" required>
+        <input formControlName="username" type="text" placeholder="Usuario" size="12px" required>
       </div>
       
       <!-- Campo de contraseña -->
       <div class="label">
-        <input formControlName="password" type="password" placeholder="Password" size="12px" required>
+        <input formControlName="password" type="password" placeholder="Contraseña" size="12px" required>
       </div>
   
       <button type="submit" [disabled]="loginForm.invalid" (ngSubmit)="login()">Iniciar Sesión</button>
+
+      <p-messages [value]="msgs"></p-messages>
     </form>
 </div>
   
