@@ -1,59 +1,98 @@
-# ElectionSystemFront
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.0-rc.0.
+# Proyecto de Gestión de Votantes - Frontend
 
-## Development server
+Este es el frontend del proyecto desarrollado con Angular, que incluye funcionalidades relacionadas con votaciones y gestión de candidatos.
 
-To start a local development server, run:
+## Estructura de Carpetas
 
-```bash
-ng serve
+```
+ELECTION-SYSTEM-FRONT/
+├── src/
+│   ├── app/                
+│   │   ├── api/           # Modelos y servicios relacionados con las peticiones API.
+│   │   │   ├── apiResponse.ts
+│   │   │   ├── candidate.model.ts
+│   │   │   ├── userLogged.ts
+│   │   │   ├── vote.ts
+│   │   │   ├── voteDetail.ts
+│   │   │   ├── voter.ts
+│   │   ├── auth/          # Archivos de autenticación y protección de rutas.
+│   │   │   ├── auth.guard.spec.ts
+│   │   │   ├── auth.guard.ts
+│   │   ├── components/    # Componentes de la aplicación.
+│   │   │   ├── add-voter/
+│   │   │   ├── auth/login/
+│   │   │   ├── change-password/
+│   │   │   ├── public-vote/
+│   │   │   ├── top-candidates/
+│   │   │   ├── votes-list/
+│   │   ├── layout/        # Disposición y estructura general de la aplicación.
+│   │   ├── services/      # Servicios para la comunicación con la API.
+│   │   │   ├── auth.service.ts
+│   │   │   ├── intercept.service.ts
+│   │   │   ├── vote.service.ts
+│   │   │   ├── voter.service.ts
+│   │   ├── app.component.html
+│   │   ├── app.component.scss
+│   │   ├── app.component.ts
+│   │   ├── app.config.ts
+│   │   ├── app.routes.ts
+│   ├── assets/            # Recursos estáticos como imágenes y fuentes.
+│   │   ├── fonts/
+│   │   ├── images/
+│   ├── environments/      # Archivos de configuración del entorno.
+│   ├── index.html
+│   ├── main.ts
+│   ├── styles.scss
+├── package.json          # Dependencias del proyecto
+└── README.md             # Información del proyecto
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Instalación
 
-## Code scaffolding
+1. Clonar el repositorio:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+    ```bash
+    git clone https://github.com/DamianEtcheverrigaray97/election-system-front.git
+    ```
 
-```bash
-ng generate component component-name
-```
+2. Navegar a la carpeta del proyecto:
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+    ```bash
+    cd election-system-front
+    ```
 
-```bash
-ng generate --help
-```
+3. Instalar las dependencias:
 
-## Building
+    ```bash
+    npm install
+    ```
 
-To build the project run:
+4. Configurar el Archivo environment.ts:
 
-```bash
-ng build
-```
+El proyecto utiliza el archivo environment.ts para definir las variables de configuración específicas del entorno. Debes asegurarte de que este archivo tenga los valores correctos de acuerdo con tu entorno local o de producción.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Ubica el archivo src/environments/environment.ts y actualiza las siguientes variables con los datos correspondientes a tu servidor backend:
 
 ```bash
-ng test
+    export const environment = {
+        version: "1.0.0",
+        baseApiUrl: "http://localhost:3000/api",  // Dirección de la API del backend
+        authTokenKey: 'authce9d77b308c149d5992a80073637e4d5',  // Clave para guardar el token de autenticación
+    };
 ```
 
-## Running end-to-end tests
 
-For end-to-end (e2e) testing, run:
+5. Ejecutar la aplicación:
 
-```bash
-ng e2e
-```
+    ```bash
+    ng serve
+    ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+    La aplicación estará disponible por defecto en `http://localhost:4200`.
 
-## Additional Resources
+## Dependencias
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Angular: 19.1.0
+- TypeScript
+- RxJS
