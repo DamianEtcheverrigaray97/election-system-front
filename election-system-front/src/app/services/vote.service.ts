@@ -4,9 +4,17 @@ import { map, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Candidate } from '../api/candidate.model';
 import { ApiResponse } from '../api/apiResponse';
-import { Vote } from '../api/vote';
 import { VoteDetails } from '../api/voteDetail';
+import { Vote } from '../api/vote';
+export interface VoterResponse {
+  voterId: number;
+  message: string;
+}
 
+export interface NewVote {
+  document: number | null;
+  candidate_id: string | null;
+}
 @Injectable({
     providedIn: 'root'
 })
@@ -29,5 +37,15 @@ export class VoteService {
     getVoteById(voteId: number): Observable<ApiResponse<VoteDetails>> {
       const httpHeaders = new HttpHeaders();
       return this.http.get<ApiResponse<VoteDetails>>(`${this.API_VOTES_URL}/vote/${voteId}`, { headers: httpHeaders });
+    }
+
+    getAllVotableCandidates(): Observable<ApiResponse<Candidate[]>> {
+      const httpHeaders = new HttpHeaders();
+      return this.http.get<ApiResponse<Candidate[]>>(`${this.API_VOTES_URL}/get-all-candidates`, { headers: httpHeaders });
+    }
+
+    vote(newVote : NewVote): Observable<ApiResponse<VoterResponse>> {
+      const httpHeaders = new HttpHeaders();
+      return this.http.post<ApiResponse<VoterResponse>>(`${this.API_VOTES_URL}/vote`, newVote, { headers: httpHeaders });
     }
 }

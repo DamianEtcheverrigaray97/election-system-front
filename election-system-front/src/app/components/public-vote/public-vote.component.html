@@ -1,1 +1,42 @@
-<p>public-vote works!</p>
+<div class="layout-container">
+    <app-app-topbar-public></app-app-topbar-public>
+
+    <div class="layout-content-wrapper">
+        <div class="layout-content">
+
+            <p-card header="Formulario de Votación">
+                <form (ngSubmit)="sendVote()" #votoForm="ngForm">
+                    <div class="grid">
+                        <div class="col-12 sm:col-6 xl:col-6">
+                            <div class="p-fluid">
+                                <div class="flex flex-col mb-2">
+                                    <label for="document">Número de Cédula</label>
+                                    <input id="document" pInputText [(ngModel)]="vote.document" name="document" required />
+                                </div>
+                                <div class="flex flex-col mb-2">
+                                    <label for="candidate">Seleccionar Candidato</label>
+                                    <p-dropdown
+                                        [options]="candidates"
+                                        optionLabel="fullName"    
+                                        optionValue="candidateId"  
+                                        placeholder="Seleccione un candidato"
+                                        [(ngModel)]="vote.candidate_id"
+                                        name="candidate"
+                                        required
+                                    ></p-dropdown>
+                                </div>
+                                <div class="flex justify-content-end">
+                                    <button pButton type="submit" label="Enviar Voto" [disabled]="!votoForm.form.valid"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>   
+                </form>
+                <p-messages [value]="msgs"></p-messages>
+            </p-card>
+  
+        </div>
+    </div>
+
+    <div class="layout-mask"></div>
+</div>
