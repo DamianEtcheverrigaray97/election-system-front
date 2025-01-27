@@ -4,7 +4,7 @@ import { AppTopbarPublicComponent } from '../../layout/app-topbar-public/app-top
 import { CardModule } from 'primeng/card';
 import { DropdownModule } from 'primeng/dropdown';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Candidate } from '../../api/candidate.model';
 import { VoteService } from '../../services/vote.service';
 import { InputTextModule } from 'primeng/inputtext';
@@ -68,7 +68,7 @@ export class PublicVoteComponent {
     })
   }
 
-  sendVote(){
+  sendVote(votoForm: NgForm){
     console.log('Voto enviado:', this.vote);
     this.VoteService.vote(this.vote).subscribe({
       next: (response) => {
@@ -79,7 +79,7 @@ export class PublicVoteComponent {
             summary: 'Voto Enviado -',  
             detail: 'Tu voto ha sido registrado correctamente.'
           });
-          this.resetForm();
+          this.resetForm(votoForm);
         }
       },
       error: (response) => {
@@ -112,10 +112,11 @@ export class PublicVoteComponent {
     })
   }
 
-  resetForm() {
+  resetForm(votoForm: NgForm) {
     this.vote = {
       document: null,
       candidate_id: null
     };
+    votoForm.resetForm();
   }
 }
