@@ -1,12 +1,11 @@
 //Import Angular
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AsyncSubject, BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { UserLogged } from '../api/userLogged';
 import { ApiResponse } from '../api/apiResponse';
+import { LoginReponse } from '../api/login';
 
 
 const API_AUTH_URL = environment.baseApiUrl+'/admin';
@@ -16,28 +15,25 @@ const API_AUTH_URL = environment.baseApiUrl+'/admin';
 })
 export class AuthService {
 
-  public currentUser:UserLogged=new UserLogged();
-  public userLogged:AsyncSubject<boolean>= new AsyncSubject<boolean>();
-
   constructor(private http: HttpClient) { }
 
-  public loginUser(email : string, password : string) : Observable<any>{
-      const httpHeaders = new HttpHeaders(); 
-        
-      return this.http.post(API_AUTH_URL+"/login", { email, password },{ headers: httpHeaders })
+ public loginUser(email: string, password: string): Observable<ApiResponse<LoginReponse>> {
+    const httpHeaders = new HttpHeaders();
+
+    return this.http
+      .post<ApiResponse<LoginReponse>>(API_AUTH_URL + '/login', { email, password }, { headers: httpHeaders })
       .pipe(
-          map((response:any) => {
-              if (response['status']=="success")
-              {
-                sessionStorage.setItem(environment.authTokenKey,response['data'].token);
-                return true;
-              }
-              else
-              {
-                sessionStorage.setItem("errorLogin",response["error "]);
-                return false;
-              }
-          })
+        map((response) => {
+          if (response.status === 'success' && response['data']?.token) {
+            // Si el login es exitoso, almacenar el token
+            sessionStorage.setItem(environment.authTokenKey,response['data'].token);
+          } else {
+            // Si el login falla, almacenar el error
+            sessionStorage.setItem('errorLogin', response.error || 'Unknown error');
+          }
+          // Retornar la respuesta completa
+          return response;
+        })
       );
   }
 

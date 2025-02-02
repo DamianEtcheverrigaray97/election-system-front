@@ -16,11 +16,10 @@ import { AppBreadcrumbComponent } from './app-breadcrumb/app.breadcrumb.componen
     ],
 })
 export class AppLayoutComponent implements OnDestroy {
+    
     overlayMenuOpenSubscription: Subscription | null = null;
-
-    menuOutsideClickListener: any;
-
-    menuScrollListener: any;
+    menuOutsideClickListener: (() => void) | null = null;
+    menuScrollListener: (() => void) | null = null;
 
     @ViewChild(AppTopbarComponent) appTopbar!: AppTopbarComponent;
 

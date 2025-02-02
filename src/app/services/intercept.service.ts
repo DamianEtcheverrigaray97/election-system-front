@@ -11,7 +11,7 @@ export class InterceptService implements HttpInterceptor {
 
   constructor() { }
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const userToken = sessionStorage.getItem(environment.authTokenKey); 
 
     // Si el token está presente, lo agregamos al encabezado Authorization

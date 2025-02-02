@@ -108,7 +108,7 @@ export class AddVoterComponent {
     });
   }
 
-  private showMessage(severity: MessageSeverity, summary: VoterMessageSummary, detail: any, life: number = 4000) {
+  private showMessage(severity: MessageSeverity, summary: VoterMessageSummary, detail: string, life: number = 4000) {
     this.messageService.add({ severity, summary, detail, life });
   }
 }
