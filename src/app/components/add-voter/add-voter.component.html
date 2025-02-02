@@ -5,90 +5,127 @@
         <div class="card p-fluid">
             <h2>Agregar Nuevo Votante/Candidato</h2>
             
-            <form [formGroup]="addVoterForm" (ngSubmit)="onSubmit()" *ngIf="this.addVoterForm">
+            @if (this.addVoterForm) {
+                <form [formGroup]="addVoterForm" (ngSubmit)="onSubmit()">
                 
-                <div class="flex flex-col mb-2">
-                    <label for="document">Documento:</label>
-                    <input pInputText id="document" formControlName="document" type="text" class="form-control" />
-                    <div *ngIf="f['document'].touched && f['document'].invalid" class="error-message">
-                        <div *ngIf="f['document'].errors?.['required']">El documento es requerido.</div>
-                        <div *ngIf="f['document'].errors?.['pattern']">El documento solo puede contener números.</div>
+                    <div class="flex flex-col mb-2">
+                        <label for="document">Documento:</label>
+                        <input pInputText id="document" formControlName="document" type="text" class="form-control" />
+                    
+                        @if (f['document'].touched && f['document'].invalid) {
+                            <div class="error-message">
+                                @if (f['document'].errors?.['required']) {
+                                    <span>El documento es requerido.</span>
+                                }
+                                @if (f['document'].errors?.['pattern']) {
+                                    <span>El documento solo puede contener números.</span>
+                                }
+                            </div>
+                        }
                     </div>
-                </div>
-
-                <div class="flex flex-col mb-2">
-                    <label for="role">Rol:</label>
-                    <div class="field mt-1">
-                        <div class="field-radiobutton col-6 mr-1">
-                            <p-radioButton formControlName="role" value="voter" label="Votante" name="role" ></p-radioButton>
-                            <label for="category1">Votante</label>
-                        </div>
+                    
     
-                        <div class="field-radiobutton col-6">
-                            <p-radioButton formControlName="role" value="candidate" label="Candidato" name="role"></p-radioButton>
-                            <label for="category1">Candidato</label>
+                    <div class="flex flex-col mb-2">
+                        <label for="role">Rol:</label>
+                        <div class="field mt-1">
+                            <div class="field-radiobutton col-6 mr-1">
+                                <p-radioButton formControlName="role" value="voter" label="Votante" name="role"></p-radioButton>
+                                <label for="category1">Votante</label>
+                            </div>
+                    
+                            <div class="field-radiobutton col-6">
+                                <p-radioButton formControlName="role" value="candidate" label="Candidato" name="role"></p-radioButton>
+                                <label for="category1">Candidato</label>
+                            </div>
                         </div>
+                    
+                        @if (f['role'].touched && f['role'].invalid) {
+                            <span class="error-message">
+                                El rol es requerido.
+                            </span>
+                        }
                     </div>
-
-                    <div *ngIf="f['role'].touched && f['role'].invalid" class="error-message">
-                        El rol es requerido.
+                    
+    
+                    <div class="flex flex-col mb-2">
+                        <label for="name">Nombre:</label>
+                        <input pInputText id="name" formControlName="name" class="form-control" />
+                    
+                        @if (f['name'].touched && f['name'].invalid) {
+                            <span class="error-message">
+                                El nombre es requerido.
+                            </span>
+                        }
                     </div>
-                </div>
-
-                <div class="flex flex-col mb-2">
-                    <label for="name">Nombre:</label>
-                    <input pInputText id="name" formControlName="name" class="form-control" />
-                    <div *ngIf="f['name'].touched && f['name'].invalid" class="error-message">
-                        El nombre es requerido.
+                    
+    
+                    <div class="flex flex-col mb-2">
+                        <label for="lastName">Apellido:</label>
+                        <input pInputText id="lastName" formControlName="lastName" class="form-control" />
+                    
+                        @if (f['lastName'].touched && f['lastName'].invalid) {
+                            <span class="error-message">
+                                El apellido es requerido.
+                            </span>
+                        }
                     </div>
-                </div>
-
-                <div class="flex flex-col mb-2">
-                    <label for="lastName">Apellido:</label>
-                    <input pInputText id="lastName" formControlName="lastName" class="form-control" />
-                    <div *ngIf="f['lastName'].touched && f['lastName'].invalid" class="error-message">
-                        El apellido es requerido.
+                    
+                    <div class="flex flex-col mb-2">
+                        <label for="dob">Fecha de nacimiento:</label>
+                        <p-calendar formControlName="dob" class="form-control"></p-calendar>
+                    
+                        @if (f['dob'].touched && f['dob'].invalid) {
+                            <span class="error-message">
+                                La fecha de nacimiento es requerida.
+                            </span>
+                        }
                     </div>
-                </div>
-
-                <div class="flex flex-col mb-2">
-                    <label for="dob">Fecha de nacimiento:</label>
-                    <p-calendar formControlName="dob" class="form-control"></p-calendar>
-                    <div *ngIf="f['dob'].touched && f['dob'].invalid" class="error-message">
-                        La fecha de nacimiento es requerida.
+                    
+                    <div class="flex flex-col mb-2">
+                        <label for="address">Dirección:</label>
+                        <input pInputText id="address" formControlName="address" class="form-control" />
+                    
+                        @if (f['address'].touched && f['address'].invalid) {
+                            <span class="error-message">
+                                La dirección es requerida.
+                            </span>
+                        }
+                    </div>                
+    
+                    <div class="flex flex-col mb-2">
+                        <label for="phone">Teléfono:</label>
+                        <input pInputText id="phone" formControlName="phone" class="form-control" />
+                    
+                        @if (f['phone'].touched && f['phone'].invalid) {
+                            <div class="error-message">
+                                @if (f['phone'].errors?.['required']) {
+                                    <span>El teléfono es requerido.</span>
+                                }
+                                @if (f['phone'].errors?.['pattern']) {
+                                    <span>El teléfono debe tener 11 dígitos.</span>
+                                }
+                            </div>
+                        }
                     </div>
-                </div>
-
-                <div class="flex flex-col mb-2">
-                    <label for="address">Dirección:</label>
-                    <input pInputText id="address" formControlName="address" class="form-control" />
-                    <div *ngIf="f['address'].touched && f['address'].invalid" class="error-message">
-                        La dirección es requerida.
+                    
+                    <div class="flex flex-col mb-2">
+                        <label for="gender">Sexo:</label>
+                        <p-dropdown [options]="genderOptions" formControlName="gender" placeholder="Seleccione el sexo" class="form-control"></p-dropdown>
+                    
+                        @if (f['gender'].touched && f['gender'].invalid) {
+                            <span class="error-message">
+                                El sexo es requerido.
+                            </span>
+                        }
+                    </div>                
+    
+                    <div class="flex justify-content-end">
+                        <button pButton pRipple type="submit" label="Agregar Votante" [disabled]="addVoterForm.invalid"></button>
                     </div>
-                </div>
-
-                <div class="flex flex-col mb-2">
-                    <label for="phone">Teléfono:</label>
-                    <input pInputText id="phone" formControlName="phone" class="form-control" />
-                    <div *ngIf="f['phone'].touched && f['phone'].invalid" class="error-message">
-                        <div *ngIf="f['phone'].errors?.['required']">El teléfono es requerido.</div>
-                        <div *ngIf="f['phone'].errors?.['pattern']">El teléfono debe tener 11 dígitos.</div>
-                    </div>
-                </div>
-
-                <div class="flex flex-col mb-2">
-                    <label for="gender">Sexo:</label>
-                    <p-dropdown [options]="genderOptions" formControlName="gender" placeholder="Seleccione el sexo" class="form-control"></p-dropdown>
-                    <div *ngIf="f['gender'].touched && f['gender'].invalid" class="error-message">
-                        El sexo es requerido.
-                    </div>
-                </div>
-
-                <div class="flex justify-content-end">
-                    <button pButton pRipple type="submit" label="Agregar Votante" [disabled]="addVoterForm.invalid"></button>
-                </div>
-                
-            </form>
+                    
+                </form>
+            }
+           
         </div>
     </div>
 </div>

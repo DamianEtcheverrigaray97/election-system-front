@@ -11,10 +11,14 @@
                                 <div class="flex flex-col mb-2">
                                     <label for="document">Número de Cédula</label>
                                     <input id="document" pInputText formControlName="document" />
-                                    <small class="p-error" *ngIf="voteForm.controls['document'].invalid && voteForm.controls['document'].touched">
-                                        Número de cédula requerido y debe contener solo números.
-                                    </small>
+                                
+                                    @if (voteForm.controls['document'].invalid && voteForm.controls['document'].touched) {
+                                        <small class="p-error">
+                                            Número de cédula requerido y debe contener solo números.
+                                        </small>
+                                    }
                                 </div>
+                                
                                 <div class="flex flex-col mb-2">
                                     <label for="candidate">Seleccionar Candidato</label>
                                     <p-dropdown
@@ -24,9 +28,11 @@
                                         placeholder="Seleccione un candidato"
                                         formControlName="candidateId"
                                     ></p-dropdown>
-                                    <small class="p-error" *ngIf="voteForm.controls['candidateId'].invalid && voteForm.controls['candidateId'].touched">
-                                        Seleccione un candidato.
-                                    </small>
+                                    @if (voteForm.controls['candidateId'].invalid && voteForm.controls['candidateId'].touched) {
+                                        <small class="p-error">
+                                            Seleccione un candidato.
+                                        </small>
+                                    }                                    
                                 </div>
                                 <div class="flex justify-content-end mb-2">
                                     <button pButton type="submit" label="Enviar Voto" [disabled]="voteForm.invalid"></button>

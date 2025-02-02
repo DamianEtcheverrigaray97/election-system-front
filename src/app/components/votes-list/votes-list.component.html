@@ -102,19 +102,21 @@
   
 <!-- p-dialog para mostrar los detalles del voto -->
 <p-dialog header="Detalles del Voto" [(visible)]="displayModal" [modal]="true" showEffect="fade" [style]="{ width: '30vw' }" [breakpoints]="{ '960px': '75vw' }">
-    <div *ngIf="selectedVote">
-        <p><strong>Voto ID:</strong> {{ selectedVote.voteId }}</p>
-        <p><strong>Fecha de Voto:</strong> {{ selectedVote.voteDate | date : 'dd/MM/yyyy' }}</p>
-        <p><strong>Candidato:</strong> {{ selectedVote.candidateName }} {{ selectedVote.candidateLastName }}</p>
-        <p><strong>Votante:</strong> {{ selectedVote.voterName }} {{ selectedVote.voterLastName }}</p>
-        <p><strong>Documento del Votante:</strong> {{ selectedVote.voterDocument }}</p>
-        <p><strong>Fecha de Nacimiento del Votante:</strong> {{ selectedVote.voterDob | date : 'dd/MM/yyyy' }}</p>
-    </div>
+    
+    @if (selectedVote) {
+        <div>
+            <p><strong>Voto ID:</strong> {{ selectedVote.voteId }}</p>
+            <p><strong>Fecha de Voto:</strong> {{ selectedVote.voteDate | date : 'dd/MM/yyyy' }}</p>
+            <p><strong>Candidato:</strong> {{ selectedVote.candidateName }} {{ selectedVote.candidateLastName }}</p>
+            <p><strong>Votante:</strong> {{ selectedVote.voterName }} {{ selectedVote.voterLastName }}</p>
+            <p><strong>Documento del Votante:</strong> {{ selectedVote.voterDocument }}</p>
+            <p><strong>Fecha de Nacimiento del Votante:</strong> {{ selectedVote.voterDob | date : 'dd/MM/yyyy' }}</p>
+        </div>
+    }@else{
+        <span>Ha ocurrido un error</span>
+    }
 
     <ng-template pTemplate="footer">
         <button pButton icon="pi pi-check" (click)="closeDialog()" label="Cerrar" class="p-button-outlined"></button>
     </ng-template>
 </p-dialog>
-  
-
-
