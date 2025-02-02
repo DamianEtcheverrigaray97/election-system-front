@@ -13,7 +13,7 @@ export interface VoterResponse {
 
 export interface NewVote {
   document: number | null;
-  candidate_id: string | null;
+  candidateId: string | null;
 }
 @Injectable({
     providedIn: 'root'

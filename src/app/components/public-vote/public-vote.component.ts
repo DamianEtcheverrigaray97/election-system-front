@@ -35,7 +35,7 @@ export class PublicVoteComponent {
 
   vote = {
     document: null,
-    candidate_id: null
+    candidateId: null
   };
 
   candidates : Candidate[] = [];
@@ -53,7 +53,7 @@ export class PublicVoteComponent {
 
     this.voteForm = this.fb.group({
       document: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
-      candidate_id: [null, Validators.required]
+      candidateId: [null, Validators.required]
     });
 
     this.loadCandidates();

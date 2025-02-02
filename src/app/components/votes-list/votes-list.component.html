@@ -103,12 +103,12 @@
 <!-- p-dialog para mostrar los detalles del voto -->
 <p-dialog header="Detalles del Voto" [(visible)]="displayModal" [modal]="true" showEffect="fade" [style]="{ width: '30vw' }" [breakpoints]="{ '960px': '75vw' }">
     <div *ngIf="selectedVote">
-        <p><strong>Voto ID:</strong> {{ selectedVote.vote_id }}</p>
-        <p><strong>Fecha de Voto:</strong> {{ selectedVote.vote_date | date : 'dd/MM/yyyy' }}</p>
-        <p><strong>Candidato:</strong> {{ selectedVote.candidate_name }} {{ selectedVote.candidate_lastName }}</p>
-        <p><strong>Votante:</strong> {{ selectedVote.voter_name }} {{ selectedVote.voter_lastName }}</p>
-        <p><strong>Documento del Votante:</strong> {{ selectedVote.voter_document }}</p>
-        <p><strong>Fecha de Nacimiento del Votante:</strong> {{ selectedVote.voter_dob | date : 'dd/MM/yyyy' }}</p>
+        <p><strong>Voto ID:</strong> {{ selectedVote.voteId }}</p>
+        <p><strong>Fecha de Voto:</strong> {{ selectedVote.voteDate | date : 'dd/MM/yyyy' }}</p>
+        <p><strong>Candidato:</strong> {{ selectedVote.candidateName }} {{ selectedVote.candidateLastName }}</p>
+        <p><strong>Votante:</strong> {{ selectedVote.voterName }} {{ selectedVote.voterLastName }}</p>
+        <p><strong>Documento del Votante:</strong> {{ selectedVote.voterDocument }}</p>
+        <p><strong>Fecha de Nacimiento del Votante:</strong> {{ selectedVote.voterDob | date : 'dd/MM/yyyy' }}</p>
     </div>
 
     <ng-template pTemplate="footer">
