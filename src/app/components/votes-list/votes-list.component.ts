@@ -12,7 +12,6 @@ import { TooltipModule } from 'primeng/tooltip';
 import { DialogModule } from 'primeng/dialog';
 import { VoteDetails } from '../../api/voteDetail';
 
-
 @Component({
   selector: 'app-votes-list',
   imports: [
@@ -36,8 +35,6 @@ export class VotesListComponent {
   displayModal: boolean = false;
   votesList: Vote[] = [];
   selectedVote: VoteDetails | undefined = undefined;
-  pieData: any;
-  pieOptions: any;
 
   constructor(private VoteService : VoteService){ }
 

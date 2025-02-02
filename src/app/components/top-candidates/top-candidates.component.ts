@@ -14,6 +14,8 @@ import { FormsModule } from '@angular/forms';
 import { Candidate } from '../../api/candidate.model';
 import { ChartModule } from 'primeng/chart';
 import { VoteService } from '../../services/vote.service';
+import { PieChartOptions } from '../../api/ChartPieOptions';
+import { ChartPieData } from '../../api/ChartPieData';
 
 @Component({
   selector: 'app-top-candidates',
@@ -37,11 +39,10 @@ import { VoteService } from '../../services/vote.service';
 export class TopCandidatesComponent {
   
   @ViewChild('filter') filter!: ElementRef;
-
   loading: boolean = true;
   candidateList: Candidate[] = [];
-  pieData: any;
-  pieOptions: any;
+  pieData!: ChartPieData;
+  pieOptions!: PieChartOptions;
 
   constructor(private VoteService : VoteService){ }
 

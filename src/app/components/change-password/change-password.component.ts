@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { AuthService } from '../../services/auth.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ApiResponse } from '../../api/apiResponse';
-import { HttpErrorResponse } from '@angular/common/http';
+import { MessageSeverity } from '../../enums/message.enum';
+import { ChangePasswordError, ChangePasswordMessage, ChangePasswordMessageSummary,} from '../../enums/changePassword.enum';
 @Component({
   selector: 'app-change-password',
   imports: [
@@ -15,7 +16,8 @@ import { HttpErrorResponse } from '@angular/common/http';
     ButtonModule,
     FormsModule,
     InputTextModule,
-    ToastModule
+    ToastModule,
+    ReactiveFormsModule
   ],
   providers: [
     MessageService,
@@ -25,50 +27,62 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class ChangePasswordComponent {
 
-  currentPassword: string = '';
-  newPassword: string = '';
-  confirmPassword: string = '';
+  passwordForm!: FormGroup;
 
   constructor(
     private authService: AuthService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private fb: FormBuilder
   ) { }
 
+  ngOnInit(): void {
+    this.passwordForm = this.fb.group({
+      currentPassword: ['', Validators.required],
+      newPassword: ['', Validators.required],
+      confirmPassword: ['', Validators.required]
+    });
+  }
+
   onChangePassword() {
-
-    if (!this.currentPassword || !this.newPassword || !this.confirmPassword) {
-      this.messageService.add({ severity: 'warn', summary: 'Error', detail: 'Por favor, ingrese todas las contraseñas.' });
+    if (this.passwordForm.invalid) {
+      this.showMessage(MessageSeverity.WARN, ChangePasswordMessageSummary.ERROR, ChangePasswordMessage.FORM_INCOMPLETE);
       return;
     }
 
-    if (this.newPassword !== this.confirmPassword) {
-      this.messageService.add({ severity: 'warn', summary: 'Error', detail: 'Las contraseñas no coinciden' });
+    const { currentPassword, newPassword, confirmPassword } = this.passwordForm.value;
+
+    if (newPassword !== confirmPassword) {
+      this.showMessage(MessageSeverity.WARN, ChangePasswordMessageSummary.ERROR, ChangePasswordMessage.PASSWORD_MISMATCH);
       return;
     }
 
-    this.authService.changePassword(this.currentPassword, this.newPassword).subscribe({
+    this.authService.changePassword(currentPassword, newPassword).subscribe({
       next: (response: ApiResponse<{ message: string }>) => {
         if (response.status === 'success') {
-          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Contraseña actualizada exitosamente' });
-          this.currentPassword = '';
-          this.newPassword = '';
-          this.confirmPassword = '';
+          this.showMessage(MessageSeverity.SUCCESS, ChangePasswordMessageSummary.SUCCESS, ChangePasswordMessage.PASSWORD_SUCCESS);
+          this.passwordForm.reset();
         }
       },
       error: (response: any) => {
-          let error = response.error.error;
-          if (error === 'New password cannot be the same as the current password') {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'La nueva contraseña no puede ser la misma que la contraseña actual' });
-          } else if (error === 'The current password is incorrect') {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'La contraseña actual es incorrecta' });
-          } else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Hubo un error inesperado' });
-          }
-      },
-      complete: () => {
+        let error = response.error.error;
 
+        switch (error) {
+          case ChangePasswordError.NEW_PASSWORD_SAME_AS_CURRENT:
+            this.showMessage(MessageSeverity.ERROR, ChangePasswordMessageSummary.ERROR, ChangePasswordError.NEW_PASSWORD_SAME_AS_CURRENT);
+            break;
+          case ChangePasswordError.INCORRECT_CURRENT_PASSWORD:
+            this.showMessage(MessageSeverity.ERROR, ChangePasswordMessageSummary.ERROR, ChangePasswordMessage.INCORRECT_CURRENT_PASSWORD);
+            break;
+          default:
+            this.showMessage(MessageSeverity.ERROR, ChangePasswordMessageSummary.ERROR, ChangePasswordError.UNKNOWN_ERROR);
+            break;
+        }
       }
-
     });
   }
+
+  private showMessage(severity: string, summary : string,  message: string) {
+    this.messageService.add({ severity, summary: summary, detail: message });
+  }
+  
 }

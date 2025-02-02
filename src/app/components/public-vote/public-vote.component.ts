@@ -1,17 +1,18 @@
 import { Component } from '@angular/core';
-import { AppTopbarComponent } from '../../layout/app-topbar/app-topbar.component';
 import { AppTopbarPublicComponent } from '../../layout/app-topbar-public/app-topbar-public.component';
 import { CardModule } from 'primeng/card';
 import { DropdownModule } from 'primeng/dropdown';
 import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Candidate } from '../../api/candidate.model';
 import { VoteService } from '../../services/vote.service';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
-import { MessageModule } from 'primeng/message';
+import { Message, MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
+import { MessageSeverity } from '../../enums/message.enum';
+import { VoteMessageDetail, VoteError, VoteMessageSummary } from '../../enums/vote.enum';
 @Component({
   selector: 'app-public-vote',
   imports: [
@@ -23,33 +24,43 @@ import { MessagesModule } from 'primeng/messages';
     InputTextModule,
     ButtonModule,
     MessageModule,
-    MessagesModule
+    MessagesModule,
+    ReactiveFormsModule
   ],
   providers: [MessageService],
   templateUrl: './public-vote.component.html',
   styleUrl: './public-vote.component.scss'
 })
 export class PublicVoteComponent {
+
   vote = {
     document: null,
     candidate_id: null
   };
 
   candidates : Candidate[] = [];
-  msgs: any[] = [];
-
+  msgs: Message[] = [];
+  voteForm!: FormGroup;
+  
   constructor(
-    private VoteService: VoteService,
-    private messageService: MessageService) {
+    private voteService: VoteService,
+    private messageService: MessageService,
+    private fb: FormBuilder) {
 
   }
 
   ngOnInit(): void {
+
+    this.voteForm = this.fb.group({
+      document: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+      candidate_id: [null, Validators.required]
+    });
+
     this.loadCandidates();
   } 
 
   loadCandidates(){
-    this.VoteService.getAllVotableCandidates().subscribe({
+    this.voteService.getAllVotableCandidates().subscribe({
       next: (response) => {
         if(response){
           this.candidates = response.data;
@@ -60,63 +71,48 @@ export class PublicVoteComponent {
         }
       },
       error: (error) => {
-        console.log(error)
-      },
-      complete: () => {
-        // this.loading = false;
+        this.showMessage(MessageSeverity.ERROR, VoteMessageSummary.UNKNOWN_ERROR, VoteMessageDetail.UNKNOWN_ERROR);
       }
     })
   }
 
-  sendVote(votoForm: NgForm){
-    console.log('Voto enviado:', this.vote);
-    this.VoteService.vote(this.vote).subscribe({
-      next: (response) => {
-        console.log(response)
-        if(response){
-          this.messageService.add({
-            severity: 'success',  
-            summary: 'Voto Enviado -',  
-            detail: 'Tu voto ha sido registrado correctamente.'
-          });
-          this.resetForm(votoForm);
-        }
+  sendVote() {
+    if (this.voteForm.invalid) {
+      this.showMessage(MessageSeverity.ERROR, VoteMessageSummary.FORM_ERROR, VoteMessageDetail.FORM_ERROR);
+      return;
+    }
+
+    this.voteService.vote(this.voteForm.value).subscribe({
+      next: () => {
+        this.showMessage(MessageSeverity.SUCCESS, VoteMessageSummary.VOTE_SUCCESS, VoteMessageDetail.VOTE_SUCCESS);
+        this.voteForm.reset();
       },
       error: (response) => {
         let error = response.error.error;
-        if (error === 'Voter has already voted') {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Voto ya registrado -',
-            detail: 'No puedes votar más de una vez.',
-            life: 4000  
-          });
-        } else if (error === 'Voter not found') {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error -',
-            detail: 'El votante no fue encontrado.',
-            life: 4000   
-          });
-        } else {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error desconocido -',
-            detail: 'Ha ocurrido un error. Intente nuevamente.' 
-          });
-        }
-    
-      },
-      complete: () => {
+
+        const errorMap: Record<string, { summary: VoteMessageSummary; detail: VoteMessageDetail }> = {
+          [VoteError.VOTER_ALREADY_VOTED]: {
+            summary: VoteMessageSummary.VOTE_ALREADY_REGISTERED,
+            detail: VoteMessageDetail.VOTE_ALREADY_REGISTERED
+          },
+          [VoteError.VOTER_NOT_FOUND]: {
+            summary: VoteMessageSummary.VOTER_NOT_FOUND,
+            detail: VoteMessageDetail.VOTER_NOT_FOUND
+          }
+        };
+
+        const errorMessage = errorMap[error] || {
+          summary: VoteMessageSummary.UNKNOWN_ERROR,
+          detail: VoteMessageDetail.UNKNOWN_ERROR
+        };
+
+        this.showMessage(MessageSeverity.ERROR, errorMessage.summary, errorMessage.detail);
       }
-    })
+    });
   }
 
-  resetForm(votoForm: NgForm) {
-    this.vote = {
-      document: null,
-      candidate_id: null
-    };
-    votoForm.resetForm();
+  private showMessage(severity: MessageSeverity, summary: VoteMessageSummary, detail: VoteMessageDetail, life: number = 4000) {
+    this.messageService.add({ severity, summary, detail, life });
   }
+  
 }

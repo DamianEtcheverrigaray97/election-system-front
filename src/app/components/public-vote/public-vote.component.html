@@ -3,39 +3,40 @@
 
     <div class="layout-content-wrapper">
         <div class="layout-content">
-
             <p-card header="Formulario de Votación">
-                <form (ngSubmit)="sendVote(votoForm)" #votoForm="ngForm">
+                <form [formGroup]="voteForm" (ngSubmit)="sendVote()">
                     <div class="grid">
                         <div class="col-12 sm:col-6 xl:col-6">
                             <div class="p-fluid">
                                 <div class="flex flex-col mb-2">
                                     <label for="document">Número de Cédula</label>
-                                    <input id="document" pInputText [(ngModel)]="vote.document" name="document" required />
+                                    <input id="document" pInputText formControlName="document" />
+                                    <small class="p-error" *ngIf="voteForm.controls['document'].invalid && voteForm.controls['document'].touched">
+                                        Número de cédula requerido y debe contener solo números.
+                                    </small>
                                 </div>
                                 <div class="flex flex-col mb-2">
                                     <label for="candidate">Seleccionar Candidato</label>
                                     <p-dropdown
                                         [options]="candidates"
-                                        optionLabel="fullName"    
-                                        optionValue="candidateId"  
+                                        optionLabel="fullName"
+                                        optionValue="candidateId"
                                         placeholder="Seleccione un candidato"
-                                        [(ngModel)]="vote.candidate_id"
-                                        name="candidate"
-                                        required
+                                        formControlName="candidate_id"
                                     ></p-dropdown>
+                                    <small class="p-error" *ngIf="voteForm.controls['candidate_id'].invalid && voteForm.controls['candidate_id'].touched">
+                                        Seleccione un candidato.
+                                    </small>
                                 </div>
                                 <div class="flex justify-content-end mb-2">
-                                    <button pButton type="submit" label="Enviar Voto" [disabled]="!votoForm.form.valid"></button>
+                                    <button pButton type="submit" label="Enviar Voto" [disabled]="voteForm.invalid"></button>
                                 </div>
-                                <p-messages [value]="msgs"></p-messages>
+                                <p-messages></p-messages>
                             </div>
                         </div>
-                    </div>   
+                    </div>
                 </form>
-     
             </p-card>
-  
         </div>
     </div>
 

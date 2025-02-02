@@ -10,6 +10,8 @@ import { ButtonModule } from 'primeng/button';
 import { VoterService } from '../../services/voter.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { MessageSeverity } from '../../enums/message.enum';
+import { VoterMessageSummary, VoterMessageDetail, VoterError } from '../../enums/voter.enum';
 @Component({
   selector: 'app-add-voter',
   imports: [
@@ -34,7 +36,6 @@ export class AddVoterComponent {
   addVoterForm!: FormGroup;
 
   genderOptions: { label: string, value: string }[] = [];
-
 
   constructor(
     private fb: FormBuilder,
@@ -64,6 +65,7 @@ export class AddVoterComponent {
 
   onSubmit() {
     if (this.addVoterForm.invalid) {
+      this.showMessage(MessageSeverity.ERROR, VoterMessageSummary.ERROR, VoterError.FORM_ERROR);
       return;
     }
 
@@ -89,16 +91,24 @@ export class AddVoterComponent {
     this.VoterService.addVoter(newVoter).subscribe({
       next: (response) => {
         if (response.status === 'success') {
-          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Votante agregado exitosamente' });
+          this.showMessage(MessageSeverity.SUCCESS, VoterMessageSummary.VOTE_SUCCESS, VoterMessageDetail.VOTER_ADDED_SUCCESS);
           this.addVoterForm.reset();
         }
       },
       error: (response) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: response.error.error });
-      },
-      complete: () => {
 
+        let error = response.error.error;
+
+        if (error === VoterError.VOTER_ALREADY_EXIST) {
+          this.showMessage(MessageSeverity.ERROR, VoterMessageSummary.ERROR, VoterMessageDetail.VOTER_ALREADY_EXIST);
+        } else {
+          this.showMessage(MessageSeverity.ERROR,VoterMessageSummary.UNKNOWN_ERROR,VoterMessageDetail.UNKNOWN_ERROR);
+        }
       }
     });
+  }
+
+  private showMessage(severity: MessageSeverity, summary: VoterMessageSummary, detail: any, life: number = 4000) {
+    this.messageService.add({ severity, summary, detail, life });
   }
 }
