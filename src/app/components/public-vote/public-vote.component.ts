@@ -33,11 +33,6 @@ import { VoteMessageDetail, VoteError, VoteMessageSummary } from '../../enums/vo
 })
 export class PublicVoteComponent {
 
-  vote = {
-    document: null,
-    candidateId: null
-  };
-
   candidates : Candidate[] = [];
   msgs: Message[] = [];
   voteForm!: FormGroup;
@@ -59,7 +54,7 @@ export class PublicVoteComponent {
     this.loadCandidates();
   } 
 
-  loadCandidates(){
+  loadCandidates(): void{
     this.voteService.getAllVotableCandidates().subscribe({
       next: (response) => {
         if(response){
@@ -76,7 +71,7 @@ export class PublicVoteComponent {
     })
   }
 
-  sendVote() {
+  sendVote(): void {
     if (this.voteForm.invalid) {
       this.showMessage(MessageSeverity.ERROR, VoteMessageSummary.FORM_ERROR, VoteMessageDetail.FORM_ERROR);
       return;
@@ -111,7 +106,7 @@ export class PublicVoteComponent {
     });
   }
 
-  private showMessage(severity: MessageSeverity, summary: VoteMessageSummary, detail: VoteMessageDetail, life: number = 4000) {
+  private showMessage(severity: MessageSeverity, summary: VoteMessageSummary, detail: VoteMessageDetail, life: number = 4000): void {
     this.messageService.add({ severity, summary, detail, life });
   }
   

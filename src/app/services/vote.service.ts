@@ -6,6 +6,7 @@ import { Candidate } from '../api/candidate.model';
 import { ApiResponse } from '../api/apiResponse';
 import { VoteDetails } from '../api/voteDetail';
 import { Vote } from '../api/vote';
+import { APIEndpoints } from '../config/api-endpoints';
 export interface VoterResponse {
   voterId: number;
   message: string;
@@ -20,32 +21,33 @@ export interface NewVote {
 })
 export class VoteService {
 
-    private API_VOTES_URL = environment.baseApiUrl+'/votes';
+  private API_VOTES_URL = environment.baseApiUrl + APIEndpoints.VOTES;
 
-    constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-    getMostVotesCandidates(): Observable<ApiResponse<Candidate[]>> {
-      const httpHeaders = new HttpHeaders();
-      return this.http.get<ApiResponse<Candidate[]>>(`${this.API_VOTES_URL}/most-voted`, { headers: httpHeaders });
-    }
+  getMostVotesCandidates(): Observable<ApiResponse<Candidate[]>> {
+    const httpHeaders = new HttpHeaders();
+    return this.http.get<ApiResponse<Candidate[]>>(`${this.API_VOTES_URL}${APIEndpoints.MOST_VOTED}`, { headers: httpHeaders });
+  }
 
-    getVotes(): Observable<ApiResponse<Vote[]>> {
-      const httpHeaders = new HttpHeaders();
-      return this.http.get<ApiResponse<Vote[]>>(`${this.API_VOTES_URL}`, { headers: httpHeaders });
-    }
+  getVotes(): Observable<ApiResponse<Vote[]>> {
+    const httpHeaders = new HttpHeaders();
+    return this.http.get<ApiResponse<Vote[]>>(`${this.API_VOTES_URL}`, { headers: httpHeaders });
+  }
 
-    getVoteById(voteId: number): Observable<ApiResponse<VoteDetails>> {
-      const httpHeaders = new HttpHeaders();
-      return this.http.get<ApiResponse<VoteDetails>>(`${this.API_VOTES_URL}/vote/${voteId}`, { headers: httpHeaders });
-    }
+  getVoteById(voteId: number): Observable<ApiResponse<VoteDetails>> {
+    const httpHeaders = new HttpHeaders();
+    return this.http.get<ApiResponse<VoteDetails>>(`${this.API_VOTES_URL}${APIEndpoints.VOTE}/${voteId}`, { headers: httpHeaders });
+  }
 
-    getAllVotableCandidates(): Observable<ApiResponse<Candidate[]>> {
-      const httpHeaders = new HttpHeaders();
-      return this.http.get<ApiResponse<Candidate[]>>(`${this.API_VOTES_URL}/get-all-candidates`, { headers: httpHeaders });
-    }
+  vote(newVote: NewVote): Observable<ApiResponse<VoterResponse>> {
+    const httpHeaders = new HttpHeaders();
+    return this.http.post<ApiResponse<VoterResponse>>(`${this.API_VOTES_URL}${APIEndpoints.VOTE}`, newVote, { headers: httpHeaders });
+  }
 
-    vote(newVote : NewVote): Observable<ApiResponse<VoterResponse>> {
-      const httpHeaders = new HttpHeaders();
-      return this.http.post<ApiResponse<VoterResponse>>(`${this.API_VOTES_URL}/vote`, newVote, { headers: httpHeaders });
-    }
+  getAllVotableCandidates(): Observable<ApiResponse<Candidate[]>> {
+    const httpHeaders = new HttpHeaders();
+    return this.http.get<ApiResponse<Candidate[]>>(`${this.API_VOTES_URL}${APIEndpoints.GET_ALL_CANDIDATES}`, { headers: httpHeaders });
+  }
+
 }

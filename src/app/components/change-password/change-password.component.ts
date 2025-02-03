@@ -43,7 +43,7 @@ export class ChangePasswordComponent {
     });
   }
 
-  onChangePassword() {
+  onChangePassword(): void {
     if (this.passwordForm.invalid) {
       this.showMessage(MessageSeverity.WARN, ChangePasswordMessageSummary.ERROR, ChangePasswordMessage.FORM_INCOMPLETE);
       return;
@@ -81,7 +81,7 @@ export class ChangePasswordComponent {
     });
   }
 
-  private showMessage(severity: string, summary : string,  message: string) {
+  private showMessage(severity: string, summary : string,  message: string): void {
     this.messageService.add({ severity, summary: summary, detail: message });
   }
   

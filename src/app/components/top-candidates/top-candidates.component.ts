@@ -39,7 +39,7 @@ import { ChartPieData } from '../../api/ChartPieData';
 export class TopCandidatesComponent {
   
   @ViewChild('filter') filter!: ElementRef;
-  loading = signal(true);
+  loading = signal<boolean>(true);
   candidateList: Candidate[] = [];
   pieData!: ChartPieData;
   pieOptions!: PieChartOptions;
@@ -50,7 +50,7 @@ export class TopCandidatesComponent {
     this.loadCandidates();
   }
 
-  loadCandidates(){
+  loadCandidates(): void{
     this.VoteService.getMostVotesCandidates().subscribe({
       next: (response) => {
         if(response){
@@ -67,16 +67,16 @@ export class TopCandidatesComponent {
     })
   }
 
-  onGlobalFilter(table: Table, event: Event) {
+  onGlobalFilter(table: Table, event: Event): void {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
 
-  clear(table: Table) {
+  clear(table: Table): void {
     table.clear();
     this.filter.nativeElement.value = '';
   }
 
-  initChart() {
+  initChart(): void {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');

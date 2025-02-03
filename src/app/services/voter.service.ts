@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import { Candidate } from '../api/candidate.model';
 import { ApiResponse } from '../api/apiResponse';
 import { Voter } from '../api/voter';
+import { APIEndpoints } from '../config/api-endpoints';
 
 
 export interface VoterResponse {
@@ -17,7 +18,7 @@ export interface VoterResponse {
 })
 export class VoterService {
 
-    private API_VOTER_URL = environment.baseApiUrl+'/voters';
+    private API_VOTER_URL = environment.baseApiUrl + APIEndpoints.VOTER;
 
     constructor(private http: HttpClient) {}
 

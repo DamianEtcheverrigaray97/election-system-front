@@ -6,9 +6,11 @@ import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { ApiResponse } from '../api/apiResponse';
 import { LoginReponse } from '../api/login';
+import { APIEndpoints } from '../config/api-endpoints';
 
 
-const API_AUTH_URL = environment.baseApiUrl+'/admin';
+
+const API_AUTH_URL = environment.baseApiUrl + APIEndpoints.AUTH;
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +23,7 @@ export class AuthService {
     const httpHeaders = new HttpHeaders();
 
     return this.http
-      .post<ApiResponse<LoginReponse>>(API_AUTH_URL + '/login', { email, password }, { headers: httpHeaders })
+      .post<ApiResponse<LoginReponse>>(`${API_AUTH_URL}${APIEndpoints.LOGIN}`, { email, password }, { headers: httpHeaders })
       .pipe(
         map((response) => {
           if (response.status === 'success' && response['data']?.token) {
@@ -39,7 +41,7 @@ export class AuthService {
 
   changePassword(currentPassword: string, newPassword: string): Observable<ApiResponse<{ message: string }>> {
     const body = { currentPassword, newPassword };
-    return this.http.put<ApiResponse<{ message: string }>>(`${API_AUTH_URL}/change-password`, body);
+    return this.http.put<ApiResponse<{ message: string }>>(`${API_AUTH_URL}${APIEndpoints.CHANGE_PASSWORD}`,body);
   }
   
   isAuthenticated(): boolean {

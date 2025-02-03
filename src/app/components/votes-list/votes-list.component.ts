@@ -31,8 +31,8 @@ export class VotesListComponent {
   
   @ViewChild('filter') filter!: ElementRef;
   
-  loadingVotes = signal(true);
-  displayModal = signal(false);
+  loadingVotes = signal<boolean>(true);
+  displayModal = signal<boolean>(false);
   votesList: Vote[] = [];
   selectedVote: VoteDetails | undefined = undefined;
 
@@ -42,7 +42,7 @@ export class VotesListComponent {
     this.loadCandidates();
   }
 
-  loadCandidates(){
+  loadCandidates(): void{
     this.VoteService.getVotes().subscribe({
       next: (response) => {
         if(response){
@@ -58,16 +58,16 @@ export class VotesListComponent {
     })
   }
 
-  onGlobalFilter(table: Table, event: Event) {
+  onGlobalFilter(table: Table, event: Event): void {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
 
-  clear(table: Table) {
+  clear(table: Table): void {
     table.clear();
     this.filter.nativeElement.value = '';
   }
 
-  openVoteDialog(voteId : number){
+  openVoteDialog(voteId : number): void{
     this.displayModal.set(true);
 
     this.VoteService.getVoteById(voteId).subscribe({
@@ -85,7 +85,7 @@ export class VotesListComponent {
     })
   }
 
-  closeDialog(){
+  closeDialog(): void{
     this.displayModal.set(false);
     this.selectedVote = undefined;
   }

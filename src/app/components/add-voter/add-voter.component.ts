@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { RadioButtonModule } from 'primeng/radiobutton';
@@ -63,7 +63,7 @@ export class AddVoterComponent {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.addVoterForm.invalid) {
       this.showMessage(MessageSeverity.ERROR, VoterMessageSummary.ERROR, VoterError.FORM_ERROR);
       return;
@@ -83,11 +83,11 @@ export class AddVoterComponent {
     this.addVoter(newVoter);
   }
 
-  get f() {
+  get f(): { [key: string]: AbstractControl }  {
     return this.addVoterForm.controls;
   }
 
-  addVoter(newVoter : Voter){
+  addVoter(newVoter : Voter): void{
     this.VoterService.addVoter(newVoter).subscribe({
       next: (response) => {
         if (response.status === 'success') {
@@ -108,7 +108,7 @@ export class AddVoterComponent {
     });
   }
 
-  private showMessage(severity: MessageSeverity, summary: VoterMessageSummary, detail: string, life: number = 4000) {
+  private showMessage(severity: MessageSeverity, summary: VoterMessageSummary, detail: string, life: number = 4000): void {
     this.messageService.add({ severity, summary, detail, life });
   }
 }

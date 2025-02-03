@@ -40,7 +40,7 @@ export class LoginComponent {
     });
   }
 
-  async login() {
+  async login(): Promise<void> {
     if (this.loginForm.invalid) {
       return;
     }
@@ -60,7 +60,7 @@ export class LoginComponent {
     }
   }
 
-  handleLoginError(response?: any) {
+  handleLoginError(response?: any): void {
     const errorLogin = response.error.error;
 
     if (errorLogin === LoginError.INCORRECT_CREDENTIALS)
