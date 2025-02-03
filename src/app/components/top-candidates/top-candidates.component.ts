@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, signal, ViewChild } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 
 import { Table, TableModule } from 'primeng/table';
@@ -39,7 +39,7 @@ import { ChartPieData } from '../../api/ChartPieData';
 export class TopCandidatesComponent {
   
   @ViewChild('filter') filter!: ElementRef;
-  loading: boolean = true;
+  loading = signal(true);
   candidateList: Candidate[] = [];
   pieData!: ChartPieData;
   pieOptions!: PieChartOptions;
@@ -62,7 +62,7 @@ export class TopCandidatesComponent {
         console.log(error)
       },
       complete: () => {
-        this.loading = false;
+        this.loading.set(false);
       }
     })
   }

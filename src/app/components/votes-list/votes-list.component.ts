@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { ChartModule } from 'primeng/chart';
@@ -31,8 +31,8 @@ export class VotesListComponent {
   
   @ViewChild('filter') filter!: ElementRef;
   
-  loadingVotes: boolean = true;
-  displayModal: boolean = false;
+  loadingVotes = signal(true);
+  displayModal = signal(false);
   votesList: Vote[] = [];
   selectedVote: VoteDetails | undefined = undefined;
 
@@ -53,7 +53,7 @@ export class VotesListComponent {
         console.log(error)
       },
       complete: () => {
-        this.loadingVotes = false;
+        this.loadingVotes.set(false);
       }
     })
   }
@@ -68,7 +68,7 @@ export class VotesListComponent {
   }
 
   openVoteDialog(voteId : number){
-    this.displayModal = true;
+    this.displayModal.set(true);
 
     this.VoteService.getVoteById(voteId).subscribe({
       next: (response) => {
@@ -80,13 +80,13 @@ export class VotesListComponent {
         console.log(error)
       },
       complete: () => {
-        this.loadingVotes = false;
+        this.loadingVotes.set(false)
       }
     })
   }
 
   closeDialog(){
-    this.displayModal = false;
+    this.displayModal.set(false);
     this.selectedVote = undefined;
   }
 }

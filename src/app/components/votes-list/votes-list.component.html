@@ -6,7 +6,7 @@
                 [value]="votesList"
                 dataKey="id"
                 [rows]="10"
-                [loading]="loadingVotes"
+                [loading]="loadingVotes()"
                 [rowHover]="true"
                 styleClass="p-datatable-gridlines"
                 [paginator]="true"
@@ -101,7 +101,7 @@
 </div>
   
 <!-- p-dialog para mostrar los detalles del voto -->
-<p-dialog header="Detalles del Voto" [(visible)]="displayModal" [modal]="true" showEffect="fade" [style]="{ width: '30vw' }" [breakpoints]="{ '960px': '75vw' }">
+<p-dialog header="Detalles del Voto" [visible]="displayModal()" [modal]="true" showEffect="fade" [style]="{ width: '30vw' }" [breakpoints]="{ '960px': '75vw' }">
     
     @if (selectedVote) {
         <div>
